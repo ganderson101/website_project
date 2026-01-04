@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Ball Game — smallballgames</title>
+    <title>Runaway Ball — smallballgames</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
       .game-wrap {
@@ -25,6 +25,7 @@
         border: 6px solid rgba(0, 0, 0, 0.6);
         box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
         display: block;
+        cursor: pointer;
       }
 
       /* Game overlay for start/game over messages */
@@ -112,14 +113,14 @@
   </head>
   <body>
     <main class="game-wrap" role="main">
-      <h2 style="color: var(--text); margin-bottom: 8px">Ball Game</h2>
+      <h2 style="color: var(--text); margin-bottom: 8px">Runaway Ball</h2>
 
       <div class="canvas-wrap">
         <canvas id="gameCanvas" width="800" height="200"></canvas>
 
         <!-- Overlay for start / game over messages -->
         <div class="game-overlay show" id="game-overlay">
-          <h2 id="overlay-title">BALL GAME</h2>
+          <h2 id="overlay-title">RUNAWAY BALL</h2>
           <p id="overlay-text">Press SPACE, UP, or CLICK to start</p>
         </div>
       </div>
