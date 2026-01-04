@@ -1,0 +1,150 @@
+<!-- game2.html — Ball Game Runner -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ball Game — smallballgames</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .game-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 32px;
+      }
+      .canvas-wrap {
+        position: relative;
+        display: inline-block;
+      }
+      canvas {
+        background: #000;
+        border-radius: 8px;
+        border: 6px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        display: block;
+      }
+
+      /* Game overlay for start/game over messages */
+      .game-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        border-radius: 8px;
+        color: var(--text);
+        text-align: center;
+        padding: 24px;
+      }
+      .game-overlay.show {
+        display: flex;
+      }
+      .game-overlay h2 {
+        font-size: 2.5rem;
+        margin: 0 0 12px 0;
+        color: #fff;
+      }
+      .game-overlay p {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .control-btn {
+        background: var(--btn-bg);
+        color: var(--btn-text);
+        border: none;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      .control-btn:hover {
+        background: var(--btn-hover-bg);
+        color: var(--btn-hover-text);
+      }
+
+      .back-link {
+        margin-top: 12px;
+        font-size: 1rem;
+      }
+
+      .difficulty-select {
+        display: flex;
+        gap: 8px;
+        margin-top: 16px;
+        justify-content: center;
+      }
+      .difficulty-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .difficulty-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+      .difficulty-btn.active {
+        background: var(--btn-bg);
+        color: var(--btn-text);
+        border-color: var(--btn-bg);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="game-wrap" role="main">
+      <h2 style="color: var(--text); margin-bottom: 8px">Ball Game</h2>
+
+      <div class="canvas-wrap">
+        <canvas id="gameCanvas" width="800" height="200"></canvas>
+
+        <!-- Overlay for start / game over messages -->
+        <div class="game-overlay show" id="game-overlay">
+          <h2 id="overlay-title">BALL GAME</h2>
+          <p id="overlay-text">Press SPACE, UP, or CLICK to start</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="start-btn" class="control-btn">Start</button>
+        <button id="restart-btn" class="control-btn" style="display: none">
+          Restart
+        </button>
+      </div>
+
+      <div class="difficulty-select">
+        <button class="difficulty-btn active" data-difficulty="easy">
+          Easy
+        </button>
+        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+        <button class="difficulty-btn" data-difficulty="insane">Insane</button>
+      </div>
+
+      <p class="back-link">
+        <a class="btn" href="games.html">← Back to Games</a>
+      </p>
+    </main>
+
+    <script src="game2.js"></script>
+  </body>
+</html>
