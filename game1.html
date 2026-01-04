@@ -1,0 +1,232 @@
+<!-- game1.html — Breakout-style block-breaker (Game 1)
+     Simple, commented code so beginners can learn how the game works.
+     Controls: Left / Right arrow to move the paddle, or move the mouse. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Breakout — smallballgames</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .game-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 32px;
+      }
+      .canvas-wrap {
+        position: relative;
+        display: inline-block;
+      }
+      canvas {
+        background: #090909;
+        border-radius: 8px;
+        border: 6px solid rgba(0, 0, 0, 0.6);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        display: block;
+      }
+
+      /* Pause button in the top-right of the canvas */
+      .pause-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 30;
+        background: rgba(0, 0, 0, 0.6);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .level-display {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 40;
+        background: rgba(0, 0, 0, 0.5);
+        color: var(--text);
+        padding: 6px 8px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .highscore-display {
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 40;
+        background: rgba(0, 0, 0, 0.45);
+        color: var(--text);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .pause-btn[disabled] {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .controls {
+        color: var(--text);
+        text-align: center;
+      }
+      .smallnote {
+        font-size: 0.95rem;
+        color: #fffbe0;
+      }
+      .game-top {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .game-info {
+        text-align: left;
+      }
+      @media (max-width: 560px) {
+        canvas {
+          width: 320px !important;
+          height: 400px !important;
+        }
+      }
+
+      /* Overlay for win/lose screens */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 200;
+      }
+      .overlay[aria-hidden="false"] {
+        display: flex;
+      }
+      .overlay-inner {
+        background: linear-gradient(180deg, #111, #000);
+        padding: 28px;
+        border-radius: 12px;
+        text-align: center;
+        color: var(--text);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+        min-width: 280px;
+        max-width: 640px;
+      }
+      .overlay-inner h3 {
+        margin: 0 0 8px;
+        font-size: 1.6rem;
+        color: #ffefe0;
+      }
+      .overlay-inner p {
+        margin: 0 0 12px;
+      }
+      /* level scene: slightly larger title for emphasis */
+      #level-scene .overlay-inner h3 {
+        font-size: 2rem;
+      }
+      #level-scene .overlay-inner p {
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <h1 class="site-title">smallballgames</h1>
+      <p class="subtitle">Play, book, and have fun.</p>
+    </header>
+
+    <main class="hero game-wrap" role="main">
+      <div class="game-top">
+        <div class="game-info">
+          <h2>Game 1 — Breakout: Block Breaker</h2>
+          <p class="smallnote">
+            Use the <strong>Left</strong> and <strong>Right</strong> arrow keys
+            or move the mouse to move the paddle. Break all the blocks to win!
+          </p>
+        </div>
+        <div>
+          <button id="start-btn" class="btn">Start</button>
+          <button id="restart-btn" class="btn">Restart</button>
+        </div>
+      </div>
+
+      <div class="canvas-wrap">
+        <div id="level-display" class="level-display" aria-hidden="false">
+          Level: 1
+        </div>
+        <div
+          id="highscore-display"
+          class="highscore-display"
+          aria-hidden="false"
+        >
+          High Score: 0
+        </div>
+        <button
+          id="pause-btn"
+          class="btn pause-btn"
+          aria-pressed="false"
+          aria-label="Pause game"
+        >
+          Pause
+        </button>
+        <canvas
+          id="gameCanvas"
+          width="800"
+          height="500"
+          aria-label="Breakout game canvas"
+        ></canvas>
+      </div>
+
+      <div class="controls">
+        <span id="score">Score: 0</span> &nbsp; • &nbsp;
+        <span id="lives">Lives: 3</span> &nbsp; • &nbsp;
+        <span id="shields">Shields: 0</span>
+      </div>
+
+      <div
+        id="powerup-msg"
+        class="smallnote"
+        aria-live="polite"
+        style="height: 20px; margin-top: 8px"
+      ></div>
+
+      <div id="game-overlay" class="overlay" aria-hidden="true">
+        <div class="overlay-inner">
+          <h3 id="overlay-title">YOU WIN!</h3>
+          <p id="overlay-message">Great job!</p>
+          <div
+            style="
+              display: flex;
+              gap: 10px;
+              justify-content: center;
+              margin-top: 12px;
+            "
+          >
+            <button id="overlay-restart" class="btn">Restart</button>
+            <a class="btn" href="games.html">Back to Games</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level scene shown between levels; click anywhere to continue -->
+      <div id="level-scene" class="overlay" aria-hidden="true">
+        <div class="overlay-inner">
+          <h3 id="level-scene-title">Level 2</h3>
+          <p id="level-scene-sub">Click anywhere to continue</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 12px">
+        <a class="btn" href="games.html">← Back to Games</a>
+      </p>
+    </main>
+
+    <script src="game1.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!-- index.html — The main page people see first.
+     This file is simple so a beginner (or a 12-year-old) can understand it.
+     It has two big buttons: Games and Book Sports, which go to other pages. -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>smallballgames</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1 class="site-title">smallballgames</h1>
+      <p class="subtitle">Play, book, and have fun.</p>
+    </header>
+
+    <main class="hero" role="main">
+      <p class="blurb">Welcome! Pick one:</p>
+
+      <div class="buttons">
+        <a
+          class="btn"
+          href="games.html"
+          role="button"
+          aria-label="Go to Games page"
+          >Games</a
+        >
+        <a
+          class="btn"
+          href="book-sports.html"
+          role="button"
+          aria-label="Go to Book Sports page"
+          >Book Sports</a
+        >
+      </div>
+
+      <p class="note">
+        Tip: You can change the text here to anything you like.
+      </p>
+    </main>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
