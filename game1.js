@@ -802,7 +802,8 @@
   // Pointer: move paddle with mouse, touch, or pointer movement anywhere on the page
   function updatePaddleFromClientX(clientX) {
     const rect = canvas.getBoundingClientRect();
-    const mx = clientX - rect.left;
+    // Scale clientX to canvas coordinate system (account for CSS scaling)
+    const mx = (clientX - rect.left) * (cw / rect.width);
     paddle.x = Math.max(0, Math.min(cw - paddle.w, mx - paddle.w / 2));
   }
 
